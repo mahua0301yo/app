@@ -1,17 +1,31 @@
 import streamlit as st
-from pyandro import Camera
+import streamlit.components.v1 as components
 
-st.title('相機模式')
+# 定義 HTML 和 JavaScript 代碼
+html_code = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Camera</title>
+</head>
+<body>
+    <h2>Mobile Camera Stream</h2>
+    <video id="video" width="100%" autoplay></video>
+    <script>
+        const video = document.getElementById('video');
 
-if st.button('開啟鏡頭'):
-    # Open the camera
-    cam = Camera()
-    
-    while True:
-        img = cam.get_image()
-        
-        if img is not None:
-            st.image(img, caption='鏡頭畫面')
-            
-            if st.button('關閉鏡頭'):
-                break
+        // 訪問使用者的攝像頭
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                console.error('Error accessing the camera: ', err);
+            });
+    </script>
+</body>
+</html>
+"""
+
+# 使用 Streamlit 嵌入 HTML 代碼
+components.html(html_code, height=400)
