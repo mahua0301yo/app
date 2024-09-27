@@ -1,5 +1,4 @@
 opencv-python
 pyautogui
-pyzbar
-appmain.py
 pyandro
+streamlit
